@@ -35,7 +35,7 @@ holds_until(N,F,X,Y):-until(F,X,Y), type(N,X), type(N,F1), next(F1,F).
 :-type(N,F),next(F,F1),N1=N+1,not type(N1,F1), last(NP), NP >= N.
 :-type(N,F),neg(F,F1),next(F1,F2),neg(F3,F2),N1=N+1, not type(N1,F3), last(NP), NP >= N.
 
-:-not type(N,F), next(F,F1),N1=N+1,type(N1,F1), last(NP), NP >= N.
+:-state(N),not type(N,F), next(F,F1),N1=N+1,type(N1,F1), last(NP), NP >= N.
 
 :-neg(F,F1),N1=N+1,type(N1,F),neg(F2,F3),next(F3,F1),not type(N,F2), last(NP), NP >= N.
 
