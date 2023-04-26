@@ -1,0 +1,14 @@
+AND(NEXT(NEXT(y)),UNTIL(OR(x,NOT(x)),y))
+
+next(1,y).
+next(2,1).
+not(3,x).
+or(4,x,3).
+until(5,4,y).
+sub(x).
+sub(y).
+sub(1).
+sub(2).
+sub(3).
+sub(4).
+sub(5).
