@@ -37,3 +37,16 @@ sub(12).
 sub(13).
 sub(14).
 sub(15).
+
+%
+% type(1,5).
+% type(1,2).
+% type(1,4).
+% type(1,6).
+%
+% type(2,1).
+% type(2,4).
+% type(2,5).
+%
+% type(3,y).
+% type(3,4).
