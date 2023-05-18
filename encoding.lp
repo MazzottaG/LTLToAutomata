@@ -4,6 +4,7 @@ found_last:-last(N).
 hasNext(N):-type(N,F),next(F,F1).
 last(N):-state(N),not hasNext(N).
 
+neg(X,F):-neg(F,X).
 type(1,F):-isPhi(F).
 type(N,F):-sub(F),state(N),not nType(N,F).
 nType(N,F):-sub(F),state(N),not type(N,F).
@@ -22,7 +23,8 @@ nType(N,F):-sub(F),state(N),not type(N,F).
 
 %%%%% NOT operator
 :- type(N,F), neg(F,X), type(N,X), last(NP), NP >= N. 
-:- state(N), neg(F,X), not type(N,X),not type(N,F), last(NP), NP >= N. 
+%:- state(N), neg(F,X), not type(N,X),not type(N,F), last(NP), NP >= N. 
+:- type(N,X), neg(F,X), type(N,F), last(NP), NP >= N.
 
 %%%% UNTIL operator
 holds_until(N,F,X,Y):-until(F,X,Y), type(N,Y).
@@ -39,3 +41,4 @@ holds_until(N,F,X,Y):-until(F,X,Y), type(N,X), type(N,F1), next(F1,F).
 
 :-neg(F,F1),N1=N+1,type(N1,F),neg(F2,F3),next(F3,F1),not type(N,F2), last(NP), NP >= N.
 
+#show type/2.
