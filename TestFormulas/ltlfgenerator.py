@@ -150,37 +150,128 @@ def CR (n,file,long=0):
 
 
 
+#####################################################
+#### VARDI STYLE FORMULAS
+#####################################################
+
+def vRE(n,file,long=0):
+	if long > 0:
+		file.write('(')
+	file.write('(F x) -> (F (')
+	for i in range(1,n):
+		file.write('y' + str(i) + ' | ')
+	file.write('y' + str(n) + '))')
+	if long > 0:
+		file.write(') & ( ')
+		for i in range(long):
+			file.write('X ( ')
+		file.write(' ~x )')
+		for i in range(long):
+			file.write(')')
+
+def vR(n,file,long=0):
+	if long > 0:
+		file.write('(')
+	file.write('G( x -> F (')
+	for i in range(1,n):
+		file.write('y' + str(i) + ' | ')
+	file.write('y' + str(n) + '))')
+	if long > 0:
+		file.write(') & ( ')
+		for i in range(long):
+			file.write('X ( ')
+		file.write(' ~x )')
+		for i in range(long):
+			file.write(')')
+
+def vAR(n,file,long=0):
+	if long > 0:
+		file.write('(')
+	file.write('G( x -> X ( (~x) U (')
+	for i in range(1,n):
+		file.write('y' + str(i) + ' | ')
+	file.write('y' + str(n) + ')))')
+	if long > 0:
+		file.write(') & ( ')
+		for i in range(long):
+			file.write('X ( ')
+		file.write(' ~x )')
+		for i in range(long):
+			file.write(')')
+
+def vCR(n,file,long=0):
+	if long > 0:
+		file.write('(')
+	file.write('G( x -> X (')
+	for i in range(1,n):
+		file.write('y' + str(i) + ' | ')
+	file.write('y' + str(n) + '))')
+	if long > 0:
+		file.write(') & ( ')
+		for i in range(long):
+			file.write('X ( ')
+		file.write(' ~x )')
+		for i in range(long):
+			file.write(')')
 
 #####################
 ########## generators
 #####################
 
 def RE_gen():
+	if vardi:
+		prefix = 'v'
+	else:
+		prefix = ''
 	for i in lengths:
-		name = 'RExistence' + str(i) + '.txt'
+		name = prefix + 'RExistence' + str(i) + '.txt'
 		out_file = open(name,'w')
-		RE(i,out_file)
+		if vardi:
+			vRE(i,out_file)
+		else:
+			RE(i,out_file)
 		out_file.close()
 
 def R_gen():
+	if vardi:
+		prefix = 'v'
+	else:
+		prefix = ''
 	for i in lengths:
-		name = 'Response' + str(i) + '.txt'
+		name = prefix + 'Response' + str(i) + '.txt'
 		out_file = open(name,'w')
-		R(i,out_file)
+		if vardi:
+			vR(i,out_file)
+		else:
+			R(i,out_file)
 		out_file.close()
 
 def AR_gen():
+	if vardi:
+		prefix = 'v'
+	else:
+		prefix = ''
 	for i in lengths:
-		name = 'AlternateR' + str(i) + '.txt'
+		name = prefix + 'AlternateR' + str(i) + '.txt'
 		out_file = open(name,'w')
-		AR(i,out_file)
+		if vardi:
+			vAR(i,out_file)
+		else:
+			AR(i,out_file)
 		out_file.close()
 
 def CR_gen():
+	if vardi:
+		prefix = 'v'
+	else:
+		prefix = ''
 	for i in lengths:
-		name = 'ChainR' + str(i) + '.txt'
+		name = prefix + 'ChainR' + str(i) + '.txt'
 		out_file = open(name,'w')
-		CR(i,out_file)
+		if vardi:
+			vCR(i,out_file)
+		else:
+			CR(i,out_file)
 		out_file.close()
 
 
@@ -188,6 +279,8 @@ def CR_gen():
 ########## main
 #####################
 
+vardi=False
+#vardi=True
 lengths = [5,10,20,50,100]
 RE_gen()
 R_gen()
