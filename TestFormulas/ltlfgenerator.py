@@ -165,7 +165,7 @@ def vRE(n,file,long=0):
 		file.write(') & ( ')
 		for i in range(long):
 			file.write('X ( ')
-		file.write(' ~x )')
+		file.write(' z )')
 		for i in range(long):
 			file.write(')')
 
@@ -180,7 +180,7 @@ def vR(n,file,long=0):
 		file.write(') & ( ')
 		for i in range(long):
 			file.write('X ( ')
-		file.write(' ~x )')
+		file.write(' z )')
 		for i in range(long):
 			file.write(')')
 
@@ -195,7 +195,7 @@ def vAR(n,file,long=0):
 		file.write(') & ( ')
 		for i in range(long):
 			file.write('X ( ')
-		file.write(' ~x )')
+		file.write(' z )')
 		for i in range(long):
 			file.write(')')
 
@@ -210,9 +210,32 @@ def vCR(n,file,long=0):
 		file.write(') & ( ')
 		for i in range(long):
 			file.write('X ( ')
-		file.write(' ~x )')
+		file.write(' z )')
 		for i in range(long):
 			file.write(')')
+
+def ve(n,file):
+	file.write('(')
+	for i in range(1,n):
+		file.write(' F ( y' + str(i) + ' ) & ')
+	file.write(' F ( y' + str(i) + ' ))')
+
+def vel(n,m,file):
+	file.write('(')
+	for i in range(1,n):
+		file.write(' F ( y' + str(i) + ' ) & ')
+	file.write(' F ( y' + str(i) + ' )) & (')
+	for i in range(m):
+		file.write(' X (')
+	file.write(' x )')
+	for i in range(m):
+		file.write(')')
+
+def vs(n,file):
+	file.write('( ')
+	for i in range(1,n):
+		file.write(' G ( y' + str(i) + ' ) & ')
+	file.write(' G ( y' + str(i) + ' ))')
 
 #####################
 ########## generators
@@ -281,8 +304,12 @@ def CR_gen():
 
 vardi=False
 #vardi=True
-lengths = [5,10,20,50,100]
+lengths = [] #[5,10,20,50,100]
 RE_gen()
 R_gen()
 AR_gen()
 CR_gen()
+
+out = open('test.txt','w')
+vel(4,5,out)
+out.close()
