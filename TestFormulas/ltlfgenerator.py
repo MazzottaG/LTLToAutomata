@@ -7,6 +7,24 @@
 ########## procedures
 #####################
 
+import os,subprocess,shutil
+n_values	= range(5,201,5)
+fold		= "benchmarks/"
+e_n 		= os.path.join(fold,"E_n")
+s_n 		= os.path.join(fold,"S_n")
+el_n_m 		= os.path.join(fold,"EL_n_m")
+ve_n 		= os.path.join(fold,"VE_n")
+vs_n 		= os.path.join(fold,"VS_n")
+vel_n_m 	= os.path.join(fold,"VEL_n_m")
+RE_f	 	= os.path.join(fold,"RE")
+R_f 		= os.path.join(fold,"R")
+AR_f 		= os.path.join(fold,"AR")
+CR_f 		= os.path.join(fold,"CR")
+vRE_f 		= os.path.join(fold,"VRE")
+vR_f 		= os.path.join(fold,"VR")
+vAR_f 		= os.path.join(fold,"VAR")
+vCR_f 		= os.path.join(fold,"VCR")
+
 ## produce the encoding of formula RespondedExistence(n)
 def RE (n,file,long=0):
 	count = 7
@@ -45,7 +63,7 @@ def RE (n,file,long=0):
 ## produce the encoding of formula Response(n)
 def R (n,file,long=0):
 	count = 4
-	file.write('neg(1,p0).\nor(2,p0,1).\nor(6,p1,p2).\n')	
+	file.write('neg(1,p0).\nor(2,p0,1).\nor(3,p1,p2).\n')	
 	for i in range(3,n+1):
 		file.write('or(' + str(count) + ',' + str(count-1) + ',p' + str(i) + ').\n')
 		count += 1
@@ -81,7 +99,7 @@ def R (n,file,long=0):
 ## produce the encoding of formula AlternateResponse(n)
 def AR (n,file,long=0):
 	count = 4
-	file.write('neg(1,p0).\nor(2,p0,1).\nor(6,p1,p2).\n')	
+	file.write('neg(1,p0).\nor(2,p0,1).\nor(3,p1,p2).\n')	
 	for i in range(3,n+1):
 		file.write('or(' + str(count) + ',' + str(count-1) + ',p' + str(i) + ').\n')
 		count += 1
@@ -117,7 +135,7 @@ def AR (n,file,long=0):
 ## produce the encoding of formula ChainResponse(n)
 def CR (n,file,long=0):
 	count = 4
-	file.write('neg(1,p0).\nor(2,p0,1).\nor(6,p1,p2).\n')	
+	file.write('neg(1,p0).\nor(2,p0,1).\nor(3,p1,p2).\n')	
 	for i in range(3,n+1):
 		file.write('or(' + str(count) + ',' + str(count-1) + ',p' + str(i) + ').\n')
 		count += 1
@@ -242,74 +260,151 @@ def vs(n,file):
 #####################
 
 def RE_gen():
-	if vardi:
-		prefix = 'v'
+	# if vardi:
+	# 	prefix = 'v'
+	# else:
+	# 	prefix = ''
+	bench_fold = vRE_f if vardi else RE_f
+	if os.path.exists(bench_fold):
+		for file in os.listdir(bench_fold):
+			os.remove(os.path.join(bench_fold,file))
 	else:
-		prefix = ''
+		os.mkdir(bench_fold)
+	
+	if not vardi:
+		shutil.copyfile(os.path.join("..","encoding.prop.lp"),os.path.join(bench_fold,"encoding.asp"))
+		shutil.copyfile(os.path.join("..","constraint.prop.lp"),os.path.join(bench_fold,"constraint.asp"))
+	
 	for i in lengths:
-		name = prefix + 'RExistence' + str(i) + '.txt'
+		name = os.path.join(bench_fold, 'RExistence' + str(i) + '.txt')
 		out_file = open(name,'w')
 		if vardi:
 			vRE(i,out_file)
 		else:
 			RE(i,out_file)
+		if not vardi:
+			out_file.write("state(1).\n")
+			out_file.write("state(2).\n")
 		out_file.close()
+		
 
 def R_gen():
-	if vardi:
-		prefix = 'v'
+	# if vardi:
+	# 	prefix = 'v'
+	# else:
+	# 	prefix = ''
+	bench_fold = vR_f if vardi else R_f
+	if os.path.exists(bench_fold):
+		for file in os.listdir(bench_fold):
+			os.remove(os.path.join(bench_fold,file))
 	else:
-		prefix = ''
+		os.mkdir(bench_fold)
+	if not vardi:
+		shutil.copyfile(os.path.join("..","encoding.prop.lp"),os.path.join(bench_fold,"encoding.asp"))
+		shutil.copyfile(os.path.join("..","constraint.prop.lp"),os.path.join(bench_fold,"constraint.asp"))
+	
 	for i in lengths:
-		name = prefix + 'Response' + str(i) + '.txt'
+		name = os.path.join(bench_fold, 'Response' + str(i) + '.txt')
 		out_file = open(name,'w')
 		if vardi:
 			vR(i,out_file)
 		else:
 			R(i,out_file)
+		if not vardi:
+			out_file.write("state(1).\n")
+			out_file.write("state(2).\n")
 		out_file.close()
 
 def AR_gen():
-	if vardi:
-		prefix = 'v'
+	# if vardi:
+	# 	prefix = 'v'
+	# else:
+	# 	prefix = ''
+	bench_fold = vAR_f if vardi else AR_f
+	if os.path.exists(bench_fold):
+		for file in os.listdir(bench_fold):
+			os.remove(os.path.join(bench_fold,file))
 	else:
-		prefix = ''
+		os.mkdir(bench_fold)
+	if not vardi:
+		shutil.copyfile(os.path.join("..","encoding.prop.lp"),os.path.join(bench_fold,"encoding.asp"))
+		shutil.copyfile(os.path.join("..","constraint.prop.lp"),os.path.join(bench_fold,"constraint.asp"))
+	
 	for i in lengths:
-		name = prefix + 'AlternateR' + str(i) + '.txt'
+		name = os.path.join(bench_fold,'AlternateR' + str(i) + '.txt')
 		out_file = open(name,'w')
 		if vardi:
 			vAR(i,out_file)
 		else:
 			AR(i,out_file)
+		if not vardi:
+			out_file.write("state(1).\n")
+			out_file.write("state(2).\n")
 		out_file.close()
+		
 
 def CR_gen():
-	if vardi:
-		prefix = 'v'
+	# if vardi:
+	# 	prefix = 'v'
+	# else:
+	# 	prefix = ''
+	bench_fold = vCR_f if vardi else CR_f
+	if os.path.exists(bench_fold):
+		for file in os.listdir(bench_fold):
+			os.remove(os.path.join(bench_fold,file))
 	else:
-		prefix = ''
+		os.mkdir(bench_fold)
+	if not vardi:
+		shutil.copyfile(os.path.join("..","encoding.prop.lp"),os.path.join(bench_fold,"encoding.asp"))
+		shutil.copyfile(os.path.join("..","constraint.prop.lp"),os.path.join(bench_fold,"constraint.asp"))
+	
 	for i in lengths:
-		name = prefix + 'ChainR' + str(i) + '.txt'
+		name = os.path.join(bench_fold,'ChainR' + str(i) + '.txt')
 		out_file = open(name,'w')
 		if vardi:
 			vCR(i,out_file)
 		else:
 			CR(i,out_file)
+		if not vardi:
+			out_file.write("state(1).\n")
+			out_file.write("state(2).\n")
 		out_file.close()
+	
 
 
 #####################
 ########## main
 #####################
 
-vardi=False
-#vardi=True
-lengths = [] #[5,10,20,50,100]
-RE_gen()
-R_gen()
-AR_gen()
-CR_gen()
+def genVE_VS_VEL():
+	for bench_fold in [ve_n,vs_n,vel_n_m]:
+		if os.path.exists(bench_fold):
+			for file in os.listdir(bench_fold):
+				os.remove(os.path.join(bench_fold,file))
+		else:
+			os.mkdir(bench_fold)
 
-out = open('test.txt','w')
-vel(4,5,out)
-out.close()
+	for n in range(5,201,5):
+		out = open(os.path.join(ve_n,f"e{n}.txt"),'w')
+		ve(n,out)
+		out.close()
+
+	for n in range(5,201,5):
+		out = open(os.path.join(vs_n,f"s{n}.txt"),'w')
+		vs(n,out)
+		out.close()
+
+	for n in range(5,201,5):
+		for m in [int(n/2),int((3*n)/2)]:
+			out = open(os.path.join(vel_n_m,f"el{n}-{m}.txt"),'w')
+			vel(n,m,out)
+			out.close()
+
+for vardi in [True,False]:
+	lengths = range(5,201,5)
+	RE_gen()
+	R_gen()
+	AR_gen()
+	CR_gen()
+	
+genVE_VS_VEL()

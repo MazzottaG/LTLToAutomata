@@ -23,7 +23,6 @@ nType(N,F):-sub(F),state(N),not type(N,F).
 
 %%%%% NOT operator
 :- type(N,F), neg(F,X), type(N,X), last(NP), NP >= N. 
-%:- state(N), neg(F,X), not type(N,X),not type(N,F), last(NP), NP >= N. 
 :- type(N,X), neg(F,X), type(N,F), last(NP), NP >= N.
 
 %%%% UNTIL operator
@@ -33,12 +32,16 @@ holds_until(N,F,X,Y):-until(F,X,Y), type(N,X), type(N,F1), next(F1,F).
 :-type(N,F),until(F,X,Y),not holds_until(N,F,X,Y), last(NP), NP >= N.
 :-not type(N,F),holds_until(N,F,X,Y), last(NP), NP >= N.
 
-%%%%% Missing explanation
+%%%%% if at type N holds NEXT F1 then at N+1 it must hold F1
 :-type(N,F),next(F,F1),N1=N+1,not type(N1,F1), last(NP), NP >= N.
+
+%%%%% if at type N holds (NOT (NEXT F)) then at N+1 it must hold (NOT F)
 :-type(N,F),neg(F,F1),next(F1,F2),neg(F3,F2),N1=N+1, not type(N1,F3), last(NP), NP >= N.
 
-:-state(N),not type(N,F), next(F,F1),N1=N+1,type(N1,F1), last(NP), NP >= N.
+%%%%% if at type N+1 it holds F then at N it must hold (NEXT F)
+:-state(N), not type(N,F), next(F,F1),N1=N+1,type(N1,F1), last(NP), NP >= N.
 
-:-neg(F,F1),N1=N+1,type(N1,F),neg(F2,F3),next(F3,F1),not type(N,F2), last(NP), NP >= N.
+%%%%% if at type N+1 it holds (NOT F) then at N it must hold (NOT NEXT F)
+:-state(N), neg(F,F1),N1=N+1,type(N1,F),neg(F2,F3),next(F3,F1),not type(N,F2), last(NP), NP >= N.
 
 #show type/2.
