@@ -1,17 +1,37 @@
-This folder contains benchmarks and ASP-based encoding used in the paper "Automata-based LTL_f Satisfiability Checking via ASP"
+# Automata-based LTL_f Satisfiability Checking via ASP
 
-The benchmarks folder contains 7 sub-folders, one for each considered benchmarks.
-Each benchmark folder contains all the tested instances 
+This folder contains benchmarks and the ASP-based encoding used in the paper "Automata-based LTL_f Satisfiability Checking via ASP".
 
-The ASP-based approach discussed in the paper, can be tested with the "asp-based.py" script.
-This requires ltl2dfa python package to be installed.
+## Contents
 
-For all other tools we refer to https://github.com/lijwen2748/aaltaf, and https://github.com/black-sat/black
+- **benchmarks/**: Contains 7 sub-folders, one for each considered benchmark. Each benchmark folder contains all the tested instances.
+- **asp-based.py**: The script to test the ASP-based approach discussed in the paper. Requires the `ltl2dfa` Python package to be installed.
 
+## Benchmarks
 
-Usage example for ASP-based approach
+The benchmarks folder includes:
 
-We run an instance of AR benchmarks with an initial number of state to 1 and with an exponential growth for the number of state
+- **AR/**: Contains instances for Alternate Response.
+- **CR/**: Contains instances for Chain Response.
+- **R/**: Contains instances for Response.
+- **RE/**: Contains instances for Responded Existence.
+- **E_n/**: Contains instances for E(n) pattern.
+- **S_n/**: Contains instances for S(n) pattern.
+- **EL_n_m/**: Contains instances for EL(n,m) pattern.
 
-python3 asp-based.py benchmarks/AR/AlternateR5.ltl ltl_encoding.asp 1 0 
+## Requirements
 
+- `ltlf2dfa` Python package
+
+## Other Tools
+
+For other tools, please refer to:
+- [Aaltaf](https://github.com/lijwen2748/aaltaf)
+- [Black](https://github.com/black-sat/black)
+
+## Usage Example for ASP-based Approach
+
+To run an instance of the AR benchmark with an initial number of states set to 1 and an exponential growth for the number of states:
+
+```
+python3 asp-based.py benchmarks/AR/AlternateR5.ltl ltl_encoding.asp 1 0
