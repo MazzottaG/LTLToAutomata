@@ -5,7 +5,7 @@ This folder contains benchmarks and the ASP-based encoding used in the paper "Au
 ## Contents
 
 - **benchmarks/**: Contains 7 sub-folders, one for each considered benchmark. Each benchmark folder contains all the tested instances.
-- **asp-based.py**: The script to test the ASP-based approach discussed in the paper. Requires the `ltl2dfa` Python package to be installed.
+- **asp-based.py**: The script to test the ASP-based approach discussed in the paper. Requires the `ltlf2dfa` Python package to be installed.
 
 ## Benchmarks
 
