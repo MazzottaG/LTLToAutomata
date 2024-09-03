@@ -5,7 +5,7 @@ import sys,os
 from pathlib import Path
 from ltlf2dfa.parser.ltlf import LTLfParser
 import ltlf2dfa.ltlf
-import random
+import random,math
 
 class LTLF2ASP:
     __next_formula_index : int
@@ -17,6 +17,9 @@ class LTLF2ASP:
         self.__next_formula_index = 1
         self.__formula_to_index = dict()
         self.__propositional_terms = set()
+
+    def getSymbolCount(self):
+        return len(self.__propositional_terms)+self.__next_formula_index
 
     def register_formula(self,formula: str):
         if type(formula) is ltlf2dfa.ltlf.LTLfAtomic:
@@ -142,7 +145,7 @@ def main():
     formula = parser(ltlf_formula)
 
     rewriter : LTLF2ASP = LTLF2ASP()
-    working_file = os.path.join("working_dir",os.path.basename(ltlf_file)+".asp")
+    working_file = os.path.join(os.path.basename(ltlf_file)+".asp")
 
     temp_file = open(working_file, "w")
     rewriter.rewrite(formula,temp_file)
@@ -153,7 +156,7 @@ def main():
     if args.encode:
         sys.exit(0)
     
-    max_states = 16385
+    max_states = math.pow(2,rewriter.getSymbolCount())
     num_states = min_states
     num_states_previous = None
     while True:
