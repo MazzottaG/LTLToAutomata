@@ -1,0 +1,10 @@
+.DS_Store
+AIJ-artifact/
+ExampleFormulas/explain-formula1.txt
+ExampleFormulas/explain-formula2.txt
+build-inst-with-states.bash
+encoding_no_last.lp
+inst.lp
+modelAsConstraint.lp
+violated_constraint.txt
+LPNMR/
